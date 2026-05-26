@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'">
+<title>World Cup 2026 Sweepstake Kit</title>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js" defer crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.min.js" defer crossorigin="anonymous"></script>
+<style>
+  :root {
+    --bg-primary: #0f1117;
+    --bg-secondary: #1a1d28;
+    --bg-tertiary: #262a38;
+    --text-primary: #e8e6e3;
+    --text-secondary: #9aa0ac;
+    --accent-gold: #f5c842;
+    --accent-gold-hover: #ffd75a;
+    --accent-green: #22c55e;
+    --danger: #ef4444;
+    --border: #2d3142;
+    --focus-ring: #f5c842;
+    --card-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }
+
+  [data-theme="light"] {
+    --bg-primary: #f7f6f3;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #ececec;
+    --text-primary: #1a1d28;
+    --text-secondary: #555a6a;
+    --accent-gold: #b8860b;
+    --accent-gold-hover: #946d09;
+    --accent-green: #16803c;
+    --danger: #b91c1c;
+    --border: #d4d4d4;
+    --card-shadow: 0 10px 40px rgba(0,0,0,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.5;
+    min-height: 100vh;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--accent-gold);
+    color: #000;
+    padding: 0.75rem 1.25rem;
+    font-weight: 600;
+    z-index: 1000;
+    text-decoration: none;
+  }
+  .skip-link:focus { left: 1rem; top: 1rem; }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-secondary);
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .brand-mark {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-gold), #d99a1a);
+    display: grid; place-items: center;
+    font-size: 1.1rem;
+    color: #000;
+    font-weight: 800;
+  }
+  .brand h1 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .brand h1 span { color: var(--text-secondary); font-weight: 400; }
+
+  .theme-toggle {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.9rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.15s ease;
+  }
+  .theme-toggle:hover { background: var(--bg-primary); }
+  .theme-toggle:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  .screen { display: none; }
+  .screen.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .page-title {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .page-subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  /* ENTRY SCREEN */
+  .entry-form {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .input-row input {
+    flex: 1;
+    min-width: 200px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    padding: 0.85rem 1rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+  }
+  .input-row input:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 1px;
+    border-color: var(--accent-gold);
+  }
+
+  .btn {
+    background: var(--accent-gold);
+    color: #000;
+    border: none;
+    padding: 0.85rem 1.4rem;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+  }
+  .btn:hover:not(:disabled) {
+    background: var(--accent-gold-hover);
+    transform: translateY(-1px);
+  }
+  .btn:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .btn-secondary {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover:not(:disabled) {
+    background: var(--bg-primary);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover:not(:disabled) {
+    color: var(--text-primary);
+    border-color: var(--text-secondary);
+  }
+  .btn-danger {
+    background: transparent;
+    color: var(--danger);
+    border: 1px solid transparent;
+    padding: 0.4rem 0.6rem;
+  }
+  .btn-danger:hover {
+    background: rgba(239, 68, 68, 0.1);
+  }
+
+  .count-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1.5rem 0 0.75rem;
+    padding: 0 0.25rem;
+  }
+  .count {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .count-num {
+    color: var(--accent-gold);
+    font-size: 1.05rem;
+  }
+  .count-hint {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+  }
+
+  .participant-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .participant-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.65rem 0.5rem 0.65rem 1rem;
+    font-size: 0.95rem;
+  }
+  .participant-item span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+  }
+
+  .actions-row {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  .actions-row .btn { flex: 0 1 auto; }
+
+  .error-msg {
+    color: var(--danger);
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    min-height: 1.2em;
+  }
+
+  /* DRAW SCREEN */
+  .draw-stage {
+    text-align: center;
+    padding: 1.5rem 0;
+  }
+  .draw-progress {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .reveal-card {
+    background: linear-gradient(160deg, var(--bg-secondary), var(--bg-tertiary));
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem 1.5rem;
+    margin: 0 auto 2rem;
+    max-width: 480px;
+    min-height: 260px;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .reveal-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, rgba(245, 200, 66, 0.08), transparent 60%);
+    pointer-events: none;
+  }
+
+  .reveal-card.flip-in {
+    animation: flipIn 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @keyframes flipIn {
+    0% { transform: rotateY(90deg) scale(0.9); opacity: 0; }
+    50% { transform: rotateY(0deg) scale(1.02); opacity: 1; }
+    100% { transform: rotateY(0deg) scale(1); opacity: 1; }
+  }
+
+  .reveal-participant {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  .reveal-name {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 800;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.01em;
+    word-break: break-word;
+  }
+  .reveal-divider {
+    width: 60px;
+    height: 2px;
+    background: var(--accent-gold);
+    margin-bottom: 1.25rem;
+    opacity: 0.6;
+  }
+  .reveal-flag {
+    font-size: clamp(3rem, 10vw, 4.5rem);
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+  .reveal-team {
+    font-size: clamp(1.4rem, 4vw, 1.9rem);
+    font-weight: 700;
+    color: var(--accent-gold);
+    margin-bottom: 0.5rem;
+  }
+  .reveal-group {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .reveal-placeholder {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+  }
+
+  .draw-controls {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* RESULTS SCREEN */
+  .results-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+  .summary-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+  }
+  .summary-card .label {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.4rem;
+  }
+  .summary-card .value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+  }
+  .summary-card.pot .value { color: var(--accent-green); }
+
+  .payouts {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  .payouts h3 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+  }
+  .payout-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.75rem;
+  }
+  .payout-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .payout-item:last-child { border-bottom: none; }
+  .payout-place { color: var(--text-primary); font-weight: 500; font-size: 0.95rem; }
+  .payout-amount { color: var(--accent-gold); font-weight: 700; }
+
+  .results-table-wrap {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .results-table-wrap h3 {
+    font-size: 0.95rem;
+    padding: 1rem 1.25rem;
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    background: transparent;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+  }
+  tr:last-child td { border-bottom: none; }
+  td.team-cell {
+    font-weight: 600;
+  }
+  td .flag {
+    margin-right: 0.5rem;
+    font-size: 1.1rem;
+  }
+  .group-badge {
+    display: inline-block;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid var(--border);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0);
+    white-space: nowrap; border: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    header { padding: 0.75rem 1rem; }
+    .brand h1 { font-size: 0.95rem; }
+    .brand h1 span { display: none; }
+    main { padding: 1.25rem 0.85rem 3rem; }
+    .entry-form { padding: 1rem; }
+    .participant-list { grid-template-columns: 1fr; }
+    th, td { padding: 0.6rem 0.85rem; font-size: 0.875rem; }
+    .reveal-card { padding: 2rem 1rem; min-height: 220px; }
+  }
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<header>
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">26</div>
+    <h1>World Cup 2026 Sweepstake <span>· Kit</span></h1>
+  </div>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light or dark theme">
+    <span id="themeIcon" aria-hidden="true">🌞</span>
+    <span id="themeLabel">Light</span>
+  </button>
+</header>
+
+<main id="main" tabindex="-1">
+
+  <!-- ENTRY SCREEN -->
+  <section class="screen active" id="screen-entry" aria-labelledby="entry-title">
+    <h2 class="page-title" id="entry-title">Add participants</h2>
+    <p class="page-subtitle">Enter up to 48 names. Each person gets one team from the 2026 World Cup draw.</p>
+
+    <form class="entry-form" id="participantForm" autocomplete="off" novalidate>
+      <label for="participantName" class="visually-hidden">Participant name</label>
+      <div class="input-row">
+        <input
+          type="text"
+          id="participantName"
+          name="participantName"
+          placeholder="Enter a name (e.g. Sarah)"
+          maxlength="40"
+          aria-describedby="entry-error"
+          required
+        >
+        <button type="submit" class="btn" id="addBtn">
+          <span aria-hidden="true">+</span> Add name
+        </button>
+      </div>
+      <div class="error-msg" id="entry-error" role="alert" aria-live="polite"></div>
+    </form>
+
+    <div class="count-bar">
+      <div class="count">
+        <span class="count-num" id="participantCount">0</span> / 48 participants
+      </div>
+      <div class="count-hint" id="countHint">Minimum 2 to start a draw</div>
+    </div>
+
+    <ul class="participant-list" id="participantList" aria-label="Current participants" aria-live="polite"></ul>
+    <div class="empty-state" id="emptyState">No names yet. Add the first one above.</div>
+
+    <div class="actions-row">
+      <button type="button" class="btn" id="startDrawBtn" disabled>
+        Start the draw →
+      </button>
+      <button type="button" class="btn btn-ghost" id="clearAllBtn">
+        Clear all
+      </button>
+    </div>
+  </section>
+
+  <!-- DRAW SCREEN -->
+  <section class="screen" id="screen-draw" aria-labelledby="draw-title">
+    <h2 class="page-title" id="draw-title">The draw</h2>
+    <p class="page-subtitle">Click <strong>Next</strong> to reveal each allocation, or skip to the full results.</p>
+
+    <div class="draw-stage">
+      <div class="draw-progress" id="drawProgress" aria-live="polite">Ready to begin</div>
+      <div class="reveal-card" id="revealCard" role="region" aria-live="polite" aria-atomic="true">
+        <div class="reveal-placeholder">Press <strong>Next</strong> to start</div>
+      </div>
+      <div class="draw-controls">
+        <button type="button" class="btn" id="nextRevealBtn">
+          Next →
+        </button>
+        <button type="button" class="btn btn-secondary" id="revealAllBtn">
+          Reveal all
+        </button>
+        <button type="button" class="btn btn-ghost" id="backToEntryBtn">
+          ← Back
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS SCREEN -->
+  <section class="screen" id="screen-results" aria-labelledby="results-title">
+    <h2 class="page-title" id="results-title">Sweepstake results</h2>
+    <p class="page-subtitle" id="resultsDate"></p>
+
+    <div class="results-summary">
+      <div class="summary-card">
+        <div class="label">Participants</div>
+        <div class="value" id="sumParticipants">0</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Teams allocated</div>
+        <div class="value" id="sumAllocated">0</div>
+      </div>
+      <div class="summary-card pot">
+        <div class="label">Pot total</div>
+        <div class="value" id="sumPot">£0</div>
+      </div>
+    </div>
+
+    <div class="payouts">
+      <h3>Payouts (£2 per entry)</h3>
+      <div class="payout-grid">
+        <div class="payout-item"><span class="payout-place">🥇 Winner (50%)</span><span class="payout-amount" id="pay1">£0</span></div>
+        <div class="payout-item"><span class="payout-place">🥈 Runner-up (25%)</span><span class="payout-amount" id="pay2">£0</span></div>
+        <div class="payout-item"><span class="payout-place">🥉 Third (15%)</span><span class="payout-amount" id="pay3">£0</span></div>
+        <div class="payout-item"><span class="payout-place">4th place (10%)</span><span class="payout-amount" id="pay4">£0</span></div>
+      </div>
+    </div>
+
+    <div class="results-table-wrap">
+      <h3>Allocations</h3>
+      <table id="allocationsTable">
+        <thead><tr><th scope="col">#</th><th scope="col">Participant</th><th scope="col">Team</th><th scope="col">Group</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="results-table-wrap" id="unallocatedWrap" hidden>
+      <h3>Unallocated teams</h3>
+      <table id="unallocatedTable">
+        <thead><tr><th scope="col">#</th><th scope="col">Team</th><th scope="col">Group</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="actions-row">
+      <button type="button" class="btn" id="downloadPdfBtn">
+        ⬇ Download PDF
+      </button>
+      <button type="button" class="btn btn-ghost" id="newDrawBtn">
+        Start a new draw
+      </button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function() {
+  'use strict';
+
+  // ===== DATA: 2026 FIFA World Cup final draw (5 Dec 2025) =====
+  const TEAMS = [
+    { name: 'Mexico',                 flag: '🇲🇽', group: 'A' },
+    { name: 'South Africa',           flag: '🇿🇦', group: 'A' },
+    { name: 'South Korea',            flag: '🇰🇷', group: 'A' },
+    { name: 'Czech Republic',         flag: '🇨🇿', group: 'A' },
+    { name: 'Canada',                 flag: '🇨🇦', group: 'B' },
+    { name: 'Bosnia and Herzegovina', flag: '🇧🇦', group: 'B' },
+    { name: 'Qatar',                  flag: '🇶🇦', group: 'B' },
+    { name: 'Switzerland',            flag: '🇨🇭', group: 'B' },
+    { name: 'Brazil',                 flag: '🇧🇷', group: 'C' },
+    { name: 'Morocco',                flag: '🇲🇦', group: 'C' },
+    { name: 'Haiti',                  flag: '🇭🇹', group: 'C' },
+    { name: 'Scotland',               flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', group: 'C' },
+    { name: 'United States',          flag: '🇺🇸', group: 'D' },
+    { name: 'Paraguay',               flag: '🇵🇾', group: 'D' },
+    { name: 'Australia',              flag: '🇦🇺', group: 'D' },
+    { name: 'Turkey',                 flag: '🇹🇷', group: 'D' },
+    { name: 'Germany',                flag: '🇩🇪', group: 'E' },
+    { name: 'Curaçao',                flag: '🇨🇼', group: 'E' },
+    { name: 'Ivory Coast',            flag: '🇨🇮', group: 'E' },
+    { name: 'Ecuador',                flag: '🇪🇨', group: 'E' },
+    { name: 'Netherlands',            flag: '🇳🇱', group: 'F' },
+    { name: 'Japan',                  flag: '🇯🇵', group: 'F' },
+    { name: 'Sweden',                 flag: '🇸🇪', group: 'F' },
+    { name: 'Tunisia',                flag: '🇹🇳', group: 'F' },
+    { name: 'Belgium',                flag: '🇧🇪', group: 'G' },
+    { name: 'Egypt',                  flag: '🇪🇬', group: 'G' },
+    { name: 'Iran',                   flag: '🇮🇷', group: 'G' },
+    { name: 'New Zealand',            flag: '🇳🇿', group: 'G' },
+    { name: 'Spain',                  flag: '🇪🇸', group: 'H' },
+    { name: 'Cape Verde',             flag: '🇨🇻', group: 'H' },
+    { name: 'Saudi Arabia',           flag: '🇸🇦', group: 'H' },
+    { name: 'Uruguay',                flag: '🇺🇾', group: 'H' },
+    { name: 'France',                 flag: '🇫🇷', group: 'I' },
+    { name: 'Senegal',                flag: '🇸🇳', group: 'I' },
+    { name: 'Iraq',                   flag: '🇮🇶', group: 'I' },
+    { name: 'Norway',                 flag: '🇳🇴', group: 'I' },
+    { name: 'Argentina',              flag: '🇦🇷', group: 'J' },
+    { name: 'Algeria',                flag: '🇩🇿', group: 'J' },
+    { name: 'Austria',                flag: '🇦🇹', group: 'J' },
+    { name: 'Jordan',                 flag: '🇯🇴', group: 'J' },
+    { name: 'Portugal',               flag: '🇵🇹', group: 'K' },
+    { name: 'DR Congo',               flag: '🇨🇩', group: 'K' },
+    { name: 'Uzbekistan',             flag: '🇺🇿', group: 'K' },
+    { name: 'Colombia',               flag: '🇨🇴', group: 'K' },
+    { name: 'England',                flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', group: 'L' },
+    { name: 'Croatia',                flag: '🇭🇷', group: 'L' },
+    { name: 'Ghana',                  flag: '🇬🇭', group: 'L' },
+    { name: 'Panama',                 flag: '🇵🇦', group: 'L' }
+  ];
+
+  const MAX_PARTICIPANTS = 48;
+  const ENTRY_PER_PERSON = 2;
+  const PAYOUT = { first: 0.50, second: 0.25, third: 0.15, fourth: 0.10 };
+
+  const STORAGE = {
+    participants: 'wc26-sweepstake-participants',
+    results:      'wc26-sweepstake-results',
+    theme:        'wc26-sweepstake-theme',
+    revealIdx:    'wc26-sweepstake-reveal-idx'
+  };
+
+  // ===== STATE =====
+  let participants = loadParticipants();
+  let results = loadResults();
+  let currentRevealIndex = 0;
+
+  // ===== UTILITIES =====
+  function sanitise(str) {
+    // Strip control chars, trim, collapse whitespace.
+    return String(str)
+      .replace(/[\u0000-\u001f\u007f]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .slice(0, 40);
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function shuffle(arr) {
+    // Fisher-Yates with crypto-strong randomness when available.
+    const copy = arr.slice();
+    const cryptoObj = window.crypto || window.msCrypto;
+    for (let i = copy.length - 1; i > 0; i--) {
+      let j;
+      if (cryptoObj && cryptoObj.getRandomValues) {
+        const buf = new Uint32Array(1);
+        cryptoObj.getRandomValues(buf);
+        j = buf[0] % (i + 1);
+      } else {
+        j = Math.floor(Math.random() * (i + 1));
+      }
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
+  function loadParticipants() {
+    try {
+      const raw = localStorage.getItem(STORAGE.participants);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed.map(sanitise).filter(Boolean).slice(0, MAX_PARTICIPANTS) : [];
+    } catch (e) { return []; }
+  }
+
+  function saveParticipants() {
+    try { localStorage.setItem(STORAGE.participants, JSON.stringify(participants)); }
+    catch (e) { /* quota or disabled */ }
+  }
+
+  function loadResults() {
+    try {
+      const raw = localStorage.getItem(STORAGE.results);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (!parsed || !Array.isArray(parsed.allocations)) return null;
+      return parsed;
+    } catch (e) { return null; }
+  }
+
+  function saveResults(r) {
+    try { localStorage.setItem(STORAGE.results, JSON.stringify(r)); }
+    catch (e) { /* ignore */ }
+  }
+
+  function clearResults() {
+    try {
+      localStorage.removeItem(STORAGE.results);
+      localStorage.removeItem(STORAGE.revealIdx);
+    } catch (e) {}
+    results = null;
+    currentRevealIndex = 0;
+  }
+
+  function fmtMoney(n) {
+    return '£' + (Math.round(n * 100) / 100).toFixed(2).replace(/\.00$/, '');
+  }
+
+  function isoToday() {
+    const d = new Date();
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  // ===== THEME =====
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    const icon = document.getElementById('themeIcon');
+    const label = document.getElementById('themeLabel');
+    if (theme === 'light') { icon.textContent = '🌙'; label.textContent = 'Dark'; }
+    else { icon.textContent = '🌞'; label.textContent = 'Light'; }
+    try { localStorage.setItem(STORAGE.theme, theme); } catch (e) {}
+  }
+
+  function initTheme() {
+    let theme = 'dark';
+    try { theme = localStorage.getItem(STORAGE.theme) || 'dark'; } catch (e) {}
+    applyTheme(theme);
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      applyTheme(next);
+    });
+  }
+
+  // ===== SCREEN ROUTING =====
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('screen-' + id);
+    target.classList.add('active');
+    document.getElementById('main').focus();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ===== ENTRY SCREEN =====
+  function renderParticipants() {
+    const list = document.getElementById('participantList');
+    const empty = document.getElementById('emptyState');
+    const countEl = document.getElementById('participantCount');
+    const startBtn = document.getElementById('startDrawBtn');
+    const addBtn = document.getElementById('addBtn');
+    const input = document.getElementById('participantName');
+    const hint = document.getElementById('countHint');
+
+    countEl.textContent = participants.length;
+
+    if (participants.length === 0) {
+      list.innerHTML = '';
+      empty.style.display = 'block';
+    } else {
+      empty.style.display = 'none';
+      list.innerHTML = participants.map((name, i) => `
+        <li class="participant-item">
+          <span title="${escapeHtml(name)}">${i + 1}. ${escapeHtml(name)}</span>
+          <button type="button" class="btn-danger" data-remove="${i}" aria-label="Remove ${escapeHtml(name)}">✕</button>
+        </li>
+      `).join('');
+    }
+
+    startBtn.disabled = participants.length < 2;
+    const atMax = participants.length >= MAX_PARTICIPANTS;
+    addBtn.disabled = atMax;
+    input.disabled = atMax;
+    if (atMax) {
+      hint.textContent = 'Maximum 48 participants reached';
+      input.placeholder = 'Maximum reached';
+    } else if (participants.length < 2) {
+      hint.textContent = 'Minimum 2 to start a draw';
+      input.placeholder = 'Enter a name (e.g. Sarah)';
+    } else {
+      const unalloc = MAX_PARTICIPANTS - participants.length;
+      hint.textContent = unalloc > 0 ? unalloc + ' team' + (unalloc === 1 ? '' : 's') + ' will be unallocated' : 'All teams will be allocated';
+      input.placeholder = 'Enter a name (e.g. Sarah)';
+    }
+  }
+
+  function addParticipant(rawName) {
+    const errEl = document.getElementById('entry-error');
+    errEl.textContent = '';
+    const name = sanitise(rawName);
+    if (!name) {
+      errEl.textContent = 'Please enter a name.';
+      return false;
+    }
+    if (participants.length >= MAX_PARTICIPANTS) {
+      errEl.textContent = 'Maximum of 48 participants reached.';
+      return false;
+    }
+    const dupe = participants.some(p => p.toLowerCase() === name.toLowerCase());
+    if (dupe) {
+      errEl.textContent = '"' + name + '" is already on the list.';
+      return false;
+    }
+    participants.push(name);
+    saveParticipants();
+    renderParticipants();
+    return true;
+  }
+
+  function removeParticipant(idx) {
+    participants.splice(idx, 1);
+    saveParticipants();
+    renderParticipants();
+  }
+
+  function bindEntryEvents() {
+    document.getElementById('participantForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = document.getElementById('participantName');
+      if (addParticipant(input.value)) {
+        input.value = '';
+        input.focus();
+      }
+    });
+
+    document.getElementById('participantList').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-remove]');
+      if (btn) {
+        removeParticipant(parseInt(btn.getAttribute('data-remove'), 10));
+      }
+    });
+
+    document.getElementById('clearAllBtn').addEventListener('click', () => {
+      if (participants.length === 0) return;
+      if (confirm('Remove all participants?')) {
+        participants = [];
+        saveParticipants();
+        renderParticipants();
+      }
+    });
+
+    document.getElementById('startDrawBtn').addEventListener('click', () => {
+      if (participants.length < 2) return;
+      runDraw();
+      showScreen('draw');
+      renderCurrentReveal();
+    });
+  }
+
+  // ===== DRAW =====
+  function runDraw() {
+    const shuffledTeams = shuffle(TEAMS);
+    const allocations = [];
+    for (let i = 0; i < participants.length; i++) {
+      allocations.push({
+        participant: participants[i],
+        team: shuffledTeams[i]
+      });
+    }
+    const unallocated = shuffledTeams.slice(participants.length);
+    results = {
+      date: new Date().toISOString(),
+      allocations: allocations,
+      unallocated: unallocated,
+      potTotal: participants.length * ENTRY_PER_PERSON
+    };
+    saveResults(results);
+    currentRevealIndex = 0;
+    try { localStorage.setItem(STORAGE.revealIdx, '0'); } catch (e) {}
+  }
+
+  function renderCurrentReveal() {
+    const card = document.getElementById('revealCard');
+    const progress = document.getElementById('drawProgress');
+    const nextBtn = document.getElementById('nextRevealBtn');
+    const revealAllBtn = document.getElementById('revealAllBtn');
+
+    if (!results) return;
+
+    const total = results.allocations.length;
+    if (currentRevealIndex === 0) {
+      progress.textContent = total + ' allocation' + (total === 1 ? '' : 's') + ' to reveal';
+      card.innerHTML = '<div class="reveal-placeholder">Press <strong>Next</strong> to reveal the first draw</div>';
+      nextBtn.textContent = 'Reveal first →';
+      revealAllBtn.disabled = false;
+      return;
+    }
+
+    if (currentRevealIndex > total) {
+      // All done — go to results
+      try { localStorage.setItem(STORAGE.revealIdx, String(currentRevealIndex)); } catch (e) {}
+      renderResults();
+      showScreen('results');
+      return;
+    }
+
+    const a = results.allocations[currentRevealIndex - 1];
+    progress.textContent = currentRevealIndex + ' of ' + total;
+    card.innerHTML = `
+      <div class="reveal-participant">Participant ${currentRevealIndex}</div>
+      <div class="reveal-name">${escapeHtml(a.participant)}</div>
+      <div class="reveal-divider" aria-hidden="true"></div>
+      <div class="reveal-flag" aria-hidden="true">${a.team.flag}</div>
+      <div class="reveal-team">${escapeHtml(a.team.name)}</div>
+      <div class="reveal-group">Group ${a.team.group}</div>
+    `;
+    card.classList.remove('flip-in');
+    void card.offsetWidth; // restart animation
+    card.classList.add('flip-in');
+
+    if (currentRevealIndex >= total) {
+      nextBtn.textContent = 'See results →';
+      revealAllBtn.disabled = true;
+    } else {
+      nextBtn.textContent = 'Next →';
+    }
+  }
+
+  function bindDrawEvents() {
+    document.getElementById('nextRevealBtn').addEventListener('click', () => {
+      currentRevealIndex++;
+      try { localStorage.setItem(STORAGE.revealIdx, String(currentRevealIndex)); } catch (e) {}
+      renderCurrentReveal();
+    });
+    document.getElementById('revealAllBtn').addEventListener('click', () => {
+      if (!results) return;
+      currentRevealIndex = results.allocations.length + 1;
+      try { localStorage.setItem(STORAGE.revealIdx, String(currentRevealIndex)); } catch (e) {}
+      renderResults();
+      showScreen('results');
+    });
+    document.getElementById('backToEntryBtn').addEventListener('click', () => {
+      showScreen('entry');
+    });
+  }
+
+  // ===== RESULTS =====
+  function renderResults() {
+    if (!results) return;
+    const date = new Date(results.date);
+    document.getElementById('resultsDate').textContent = 'Drawn ' + date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    document.getElementById('sumParticipants').textContent = results.allocations.length;
+    document.getElementById('sumAllocated').textContent = results.allocations.length;
+    document.getElementById('sumPot').textContent = fmtMoney(results.potTotal);
+
+    document.getElementById('pay1').textContent = fmtMoney(results.potTotal * PAYOUT.first);
+    document.getElementById('pay2').textContent = fmtMoney(results.potTotal * PAYOUT.second);
+    document.getElementById('pay3').textContent = fmtMoney(results.potTotal * PAYOUT.third);
+    document.getElementById('pay4').textContent = fmtMoney(results.potTotal * PAYOUT.fourth);
+
+    const tbody = document.querySelector('#allocationsTable tbody');
+    tbody.innerHTML = results.allocations.map((a, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${escapeHtml(a.participant)}</td>
+        <td class="team-cell"><span class="flag" aria-hidden="true">${a.team.flag}</span>${escapeHtml(a.team.name)}</td>
+        <td><span class="group-badge">${a.team.group}</span></td>
+      </tr>
+    `).join('');
+
+    const unalWrap = document.getElementById('unallocatedWrap');
+    if (results.unallocated.length > 0) {
+      unalWrap.hidden = false;
+      const unalBody = document.querySelector('#unallocatedTable tbody');
+      unalBody.innerHTML = results.unallocated.map((t, i) => `
+        <tr>
+          <td>${i + 1}</td>
+          <td class="team-cell"><span class="flag" aria-hidden="true">${t.flag}</span>${escapeHtml(t.name)}</td>
+          <td><span class="group-badge">${t.group}</span></td>
+        </tr>
+      `).join('');
+    } else {
+      unalWrap.hidden = true;
+    }
+  }
+
+  function bindResultsEvents() {
+    document.getElementById('downloadPdfBtn').addEventListener('click', generatePdf);
+    document.getElementById('newDrawBtn').addEventListener('click', () => {
+      if (!confirm('Start a new draw? This will clear the current results.')) return;
+      clearResults();
+      showScreen('entry');
+      renderParticipants();
+    });
+  }
+
+  function generatePdf() {
+    if (!results) { alert('No results to download.'); return; }
+    if (!window.jspdf || !window.jspdf.jsPDF) {
+      alert('PDF library is still loading. Please try again in a moment.');
+      return;
+    }
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const date = new Date(results.date);
+    const dateStr = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    // Title
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(20);
+    doc.setTextColor(245, 200, 66);
+    doc.text('World Cup 2026 Sweepstake', pageWidth / 2, 20, { align: 'center' });
+
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(80, 80, 80);
+    doc.text('Drawn ' + dateStr, pageWidth / 2, 28, { align: 'center' });
+
+    // Pot summary
+    doc.setFontSize(12);
+    doc.setTextColor(0, 0, 0);
+    const sumY = 40;
+    doc.setFont('helvetica', 'bold');
+    doc.text('Pot total: ' + fmtMoney(results.potTotal), 14, sumY);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.text(
+      'Winner ' + fmtMoney(results.potTotal * PAYOUT.first) +
+      '   ·   Runner-up ' + fmtMoney(results.potTotal * PAYOUT.second) +
+      '   ·   Third ' + fmtMoney(results.potTotal * PAYOUT.third) +
+      '   ·   Fourth ' + fmtMoney(results.potTotal * PAYOUT.fourth),
+      14, sumY + 6
+    );
+
+    // Allocations table
+    const allocBody = results.allocations.map((a, i) => [
+      String(i + 1), a.participant, a.team.name, a.team.group
+    ]);
+    doc.autoTable({
+      head: [['#', 'Participant', 'Team', 'Group']],
+      body: allocBody,
+      startY: sumY + 14,
+      theme: 'striped',
+      headStyles: { fillColor: [245, 200, 66], textColor: [0, 0, 0], fontStyle: 'bold' },
+      styles: { fontSize: 10, cellPadding: 2.5 },
+      columnStyles: {
+        0: { cellWidth: 12 },
+        3: { cellWidth: 18, halign: 'center' }
+      }
+    });
+
+    if (results.unallocated.length > 0) {
+      const afterY = doc.lastAutoTable.finalY + 10;
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 0, 0);
+      doc.text('Unallocated teams', 14, afterY);
+      const unalBody = results.unallocated.map((t, i) => [String(i + 1), t.name, t.group]);
+      doc.autoTable({
+        head: [['#', 'Team', 'Group']],
+        body: unalBody,
+        startY: afterY + 3,
+        theme: 'grid',
+        headStyles: { fillColor: [60, 60, 60], textColor: [255, 255, 255], fontStyle: 'bold' },
+        styles: { fontSize: 10, cellPadding: 2.5 },
+        columnStyles: {
+          0: { cellWidth: 12 },
+          2: { cellWidth: 18, halign: 'center' }
+        }
+      });
+    }
+
+    // Footer
+    const pageCount = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.setFontSize(9);
+      doc.setTextColor(140, 140, 140);
+      doc.text('World Cup 2026 Sweepstake · ' + dateStr,
+        pageWidth / 2,
+        doc.internal.pageSize.getHeight() - 8,
+        { align: 'center' });
+    }
+
+    const safeDate = date.toISOString().slice(0, 10);
+    doc.save('worldcup-2026-sweepstake-' + safeDate + '.pdf');
+  }
+
+  // ===== INIT =====
+  function init() {
+    initTheme();
+    bindEntryEvents();
+    bindDrawEvents();
+    bindResultsEvents();
+    renderParticipants();
+
+    // Restore reveal index if mid-draw
+    try {
+      const stored = parseInt(localStorage.getItem(STORAGE.revealIdx) || '0', 10);
+      if (!isNaN(stored)) currentRevealIndex = stored;
+    } catch (e) {}
+
+    // If we have completed results, jump to results screen
+    if (results && results.allocations.length > 0) {
+      if (currentRevealIndex > results.allocations.length) {
+        renderResults();
+        showScreen('results');
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>
