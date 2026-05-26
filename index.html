@@ -554,7 +554,7 @@
           type="text"
           id="participantName"
           name="participantName"
-          placeholder="Enter a name (e.g. Sarah)"
+          placeholder="Enter a name (e.g. Lesley)"
           maxlength="40"
           aria-describedby="entry-error"
           required
@@ -884,11 +884,11 @@
       input.placeholder = 'Maximum reached';
     } else if (participants.length < 2) {
       hint.textContent = 'Minimum 2 to start a draw';
-      input.placeholder = 'Enter a name (e.g. Sarah)';
+      input.placeholder = 'Enter a name (e.g. Lesley)';
     } else {
       const unalloc = MAX_PARTICIPANTS - participants.length;
       hint.textContent = unalloc > 0 ? unalloc + ' team' + (unalloc === 1 ? '' : 's') + ' will be unallocated' : 'All teams will be allocated';
-      input.placeholder = 'Enter a name (e.g. Sarah)';
+      input.placeholder = 'Enter a name (e.g. Lesley)';
     }
   }
 
